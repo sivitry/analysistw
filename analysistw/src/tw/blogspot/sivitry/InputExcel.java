@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,22 +27,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Calendar;
+
+import tw.blogspot.util.ROCDateTimeFormat;
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
-	
-	 
-	private	static String thisDate = "";
+	private static String nowROCDate = "";
+	private static String nowDate = "";
 	
 	public static void main(String[] args) throws ParseException {
 		
-		Calendar c = Calendar.getInstance();
-		c.add(c.DATE, -1);
-		int year=c.get(Calendar.YEAR)-1911;
-		int month=c.get(Calendar.MONTH)+1;
-		int day=c.get(Calendar.DAY_OF_MONTH);
-		thisDate=year+"/"+month+"/"+day;
-		//System.out.println(year+"/"+month+"/"+day);
+		ROCDateTimeFormat rocdf = new ROCDateTimeFormat("eee/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+   	    nowROCDate = rocdf.format(new Date()) ;
+   	    nowDate =sdf.format(new Date());
 		
 		String filename = "data/BWIBBU_d20140108_utf8.csv";
 		List<Info> list = new LinkedList<Info>();
@@ -76,7 +75,7 @@ public class InputExcel {
 		}
 //		downloadCsv(list);
 //		downloadValue(list);
-//		downloadValueInOneFile();
+		downloadValueInOneFile();
 		list = loadName(list);
 //		list = loadValue(list);		
 		list = loadValueInOneFile(list);
@@ -236,8 +235,8 @@ public class InputExcel {
 				while ((strLine = br.readLine()) != null)   {
 					// Print the content on the console
 					System.out.println(strLine);
-					if(strLine.contains(thisDate)){
-						String value = (String) strLine.subSequence(thisDate.length()+2, strLine.length());						
+					if(strLine.contains(nowROCDate)){
+						String value = (String) strLine.subSequence(nowROCDate.length()+2, strLine.length());						
 						value = removeQuote(value);	
 						if(isValue(value)){
 							NumberFormat nf = NumberFormat.getInstance(Locale.TAIWAN);						
@@ -377,7 +376,7 @@ public class InputExcel {
 	
 	private static void downloadValueInOneFile() {
 		try{ 
-			URL website = new URL("http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX3_print.php?genpage=genpage/Report201401/A11220140122ALLBUT0999_1.php&type=csv"); 
+			URL website = new URL("http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX3_print.php?genpage=genpage/Report201401/A112"+nowDate+"ALLBUT0999_1.php&type=csv"); 
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream()); 
 			FileOutputStream fos = new FileOutputStream("data/all.csv"); 
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE); 
@@ -426,6 +425,8 @@ public class InputExcel {
 			} 					
 		}		
 	}
+	
+	
 
 }
 
