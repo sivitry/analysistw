@@ -45,5 +45,6 @@
 	<classpathentry kind="lib" path="lib/gdata-webmastertools-meta-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/gdata-youtube-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/gdata-youtube-meta-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/zip4j_1.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
