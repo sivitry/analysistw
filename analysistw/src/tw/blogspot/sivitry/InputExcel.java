@@ -16,20 +16,33 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-
+import java.util.Calendar;
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
-	private	static String thisDate = "103/01/10";
 	
-	public static void main(String[] args) {
+	 
+	private	static String thisDate = "";
+	
+	public static void main(String[] args) throws ParseException {
+		
+		Calendar c = Calendar.getInstance();
+		c.add(c.DATE, -1);
+		int year=c.get(Calendar.YEAR)-1911;
+		int month=c.get(Calendar.MONTH)+1;
+		int day=c.get(Calendar.DAY_OF_MONTH);
+		thisDate=year+"/"+month+"/"+day;
+		//System.out.println(year+"/"+month+"/"+day);
+		
 		String filename = "data/BWIBBU_d20140108_utf8.csv";
 		List<Info> list = new LinkedList<Info>();
 		String tmp;
