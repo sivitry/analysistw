@@ -121,10 +121,10 @@ public class InputExcel {
 						int end = 0;
 						if(strLine.contains("X")){
 							end = strLine.indexOf('X')-1;
-						}else if(strLine.contains("°–")){
-							end = strLine.indexOf('°–')-1;
-						}else if(strLine.contains("°œ")){
-							end = strLine.indexOf('°œ')-1;
+						}else if(strLine.contains("Ôºç")){
+							end = strLine.indexOf('Ôºç')-1;
+						}else if(strLine.contains("Ôºã")){
+							end = strLine.indexOf('Ôºã')-1;
 						}else if(strLine.contains(",,")){
 							end = strLine.indexOf(",,");
 						}else{
