@@ -24,32 +24,58 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-
-/**
- * 
- * @author samuelchiu
- * @version 1.0 %G% * 
- */
 public class InputExcel {	
 	
-	/**
-	 * test is just test...
-	 */
 	private static double lowBound = 0.0;
 	private	static String thisDate = "103/01/10";
-
-		
-	private static void sortByIntegration(List<Info> list) {
-		Collections.sort(list, new Comparator<Info>(){
-			public int compare(Info o1, Info o2){
-				Double d1 = o1.getIntegration();
-				Double d2 = o2.getIntegration();
-				return(d2.compareTo(d1));
-			}
-		});
-	}
-
 	
+	public static void main(String[] args) {
+		String filename = "data/BWIBBU_d20140108_utf8.csv";
+		List<Info> list = new LinkedList<Info>();
+		String tmp;
+		try {
+			FileReader fr = new FileReader(filename);
+			BufferedReader br = new BufferedReader(fr);
+			boolean valid;
+			while ((tmp = br.readLine()) != null) {
+				if (tmp.length() < 6) {
+					continue;
+				}
+				String str = tmp.substring(1, 5);
+				valid = true;
+				for (int i = str.length() - 1; i > 0; i--) {
+					if (!Character.isDigit(str.charAt(i))) {
+						valid = false;
+						break;
+					}
+				}
+				if (valid) {
+					int id = Integer.parseInt(str);
+					if (id > 0 && id < 9999) {
+						Info info = new Info();
+						info.setId(id);
+						list.add(info);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		downloadCsv(list);
+//		downloadValue(list);
+//		downloadValueInOneFile();
+		list = loadName(list);
+//		list = loadValue(list);		
+		list = loadValueInOneFile(list);
+		list = Integration.doIntegration(list, 5, false);
+		Integration.sortByIntegration(list);
+		show(list);
+		
+		//-- todo
+		//	revenue(), 計算營收成長? 
+		//	dividend(), 股利+股息
+		
+	}
 
 	private static void show(List<Info> list) {
 
@@ -64,7 +90,7 @@ public class InputExcel {
 				System.out.println(count+"\t"+info.getId() +"\t"+ info.getName() + "\t" +info.getValue()+"\t"+info.getIntegration());
 			}
 			
-			System.out.println(count+"\t"+info.getId() +"\t"+ info.getName() + "\t" +info.getValue()+"\t"+info.getIntegration());
+//			System.out.println(count+"\t"+info.getId() +"\t"+ info.getName() + "\t" +info.getValue()+"\t"+info.getIntegration());
 		}
 		
 		
@@ -388,56 +414,5 @@ public class InputExcel {
 		}		
 	}
 
-	
-	public static void main(String[] args) {
-		String filename = "data/BWIBBU_d20140108_utf8.csv";
-
-		List<Info> list = new LinkedList<Info>();
-		String tmp;
-
-		try {
-			FileReader fr = new FileReader(filename);
-			BufferedReader br = new BufferedReader(fr);
-
-			boolean valid;
-			while ((tmp = br.readLine()) != null) {
-				if (tmp.length() < 6) {
-					continue;
-				}
-				String str = tmp.substring(1, 5);
-				valid = true;
-				for (int i = str.length() - 1; i > 0; i--) {
-					if (!Character.isDigit(str.charAt(i))) {
-						valid = false;
-						break;
-					}
-				}
-
-				if (valid) {
-					int id = Integer.parseInt(str);
-					if (id > 0 && id < 9999) {
-						Info info = new Info();
-						info.setId(id);
-						list.add(info);
-					}
-//					 System.out.println(id);
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-//		downloadCsv(list);
-//		downloadValue(list);
-//		downloadValueInOneFile();
-		list = loadName(list);
-//		list = loadValue(list);		
-		list = loadValueInOneFile(list);
-//		list = Integration.doIntegration(list, 5, true);
-//		sortByIntegration(list);
-		show(list);
-	}
 }
 
