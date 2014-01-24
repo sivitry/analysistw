@@ -21,7 +21,7 @@ public class Integration {
 			// save integration into list
 			Info info = it.next();			
 			try {
-				FileInputStream fis = new FileInputStream("data/"+info.getId()+".csv");			
+				FileInputStream fis = new FileInputStream("data/historyPrice/"+info.getId()+".csv");			
 				DataInputStream in = new DataInputStream(fis);			
 				String strLine;
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -49,7 +49,7 @@ public class Integration {
 		while(it.hasNext()){
 			Info info = it.next();			
 			try {
-				FileInputStream fis = new FileInputStream("data/"+info.getId()+".csv");			
+				FileInputStream fis = new FileInputStream("data/historyPrice/"+info.getId()+".csv");			
 				DataInputStream in = new DataInputStream(fis);			
 				String strLine;
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
