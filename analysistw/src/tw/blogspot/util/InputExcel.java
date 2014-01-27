@@ -64,6 +64,8 @@ public class InputExcel {
 					int end = strLine.length()-13;
 					String name = strLine.substring(start, end);
 					info.setName(name);
+					//info.setValue(value);
+					//info.setIntegration(integration)
 //					System.out.println(strLine.substring(start, end));	
 				}
 			} catch (Exception e) {
