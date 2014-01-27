@@ -4,24 +4,19 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import tw.blogspot.util.ROCDateTimeFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import tw.blogspot.model.Info;
-import tw.blogspot.util.Utility;
-import tw.blogspot.feature.*;
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
@@ -84,53 +79,47 @@ public class InputExcel {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in,Charset.forName("Big5")));
 			String strLine;	
 			int count = 0;
+			
+			Pattern p = Pattern.compile("\"(\\d*(,?)\\.*\\d*)*\"");
+			Pattern lineP = Pattern.compile("(\\d{4}),(.*),(\\d*),(\\d*),(\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(.*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*)");
+			
 			while ((strLine = br.readLine()) != null)   {
 				// Print the content on the console
 				if(strLine.length()>4 && strLine.charAt(4)==','){
-//					System.out.println(strLine+"\t"+strLine.length());
-					String id = strLine.substring(0,4);
-//					System.out.println("id="+id);
-					if(Utility.isValue(id)){
-						int end = 0;
-						if(strLine.contains("X")){
-							end = strLine.indexOf('X')-1;
-						}else if(strLine.contains("－")){
-							end = strLine.indexOf('－')-1;
-						}else if(strLine.contains("＋")){
-							end = strLine.indexOf('＋')-1;
-						}else if(strLine.contains(",,")){
-							end = strLine.indexOf(",,");
-						}else{
-						}
+					
+					Matcher m = p.matcher(strLine);
+				    StringBuffer s = new StringBuffer();
+				    while (m.find()){
+				    	m.appendReplacement(s, m.group().replaceAll("[,\"]", ""));
+				    }
+				    m.appendTail(s);
+				    
+				    Matcher lm = lineP.matcher(s.toString());
+				    
+				    if(lm.matches()){
+				    	String id = lm.group(1);
+				    	
+				    	System.out.println(lm.group(10));
+				    	String target = lm.group(9);
+				    	
+				    	try {
+				    		double number = Double.parseDouble(target);
 
-						int start = 0;
-						String tmp;
-						tmp = strLine.substring(0, end);
-						
-						String value;
-						if(tmp.charAt(tmp.length()-1)=='"'){
-							tmp = tmp.substring(0, tmp.length()-1);
-							value = tmp.substring(tmp.lastIndexOf('"')+1,tmp.length());
-						}else{
-							value = tmp.substring(tmp.lastIndexOf(',')+1,tmp.length());
-						}
-//						System.out.println(value);
-						if(Utility.isValue(value)  ||  value.contains(",")){
-							double num = Utility.getNumber(value);
-							//-- In here, "num" is the today price of stock "id"
-							//-- Save to list
-							Iterator<Info> it = list.iterator();
-							while(it.hasNext()){
+				    		Iterator<Info> it = list.iterator();
+				    		while(it.hasNext()){
 								Info info = it.next();
 								if(info.getId()==Integer.parseInt(id)){
-									info.setValue(num);
+									info.setValue(number);
 								}
 							}
-							count++;
-						}else{
-							System.out.println("value is not value, id="+id+" value="+value);	
+						} catch (Exception e) {
+							// TODO: handle exception
+							System.out.println("value is not value, id="+id+" value="+target);	
 						}
-					}
+				    	
+				    }else{
+				    	System.out.println(s.toString());
+				    }
 				}	
 			}
 			System.out.println("loadValueInOneFile \t"+count);
