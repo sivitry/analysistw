@@ -1,4 +1,4 @@
-package tw.blogspot.sivitry;
+package tw.blogspot.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -21,65 +21,15 @@ import java.util.Locale;
 import tw.blogspot.util.ROCDateTimeFormat;
 import tw.blogspot.model.Info;
 import tw.blogspot.util.Utility;
+import tw.blogspot.feature.*;
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
 	private static String nowROCDate = "";
 	private static String nowDate = "";
 	
-	public static void main(String[] args) throws ParseException {
-		
-		ROCDateTimeFormat rocdf = new ROCDateTimeFormat("eee/MM/dd");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-   	    nowROCDate = rocdf.format(new Date()) ;
-   	    nowDate =sdf.format(new Date());
-		
-		String filename = "data/BWIBBU_d20140108_utf8.csv";
-		List<Info> list = new LinkedList<Info>();
-		String tmp;
-		try {
-			FileReader fr = new FileReader(filename);
-			BufferedReader br = new BufferedReader(fr);
-			boolean valid;
-			while ((tmp = br.readLine()) != null) {
-				if (tmp.length() < 6) {
-					continue;
-				}
-				String str = tmp.substring(1, 5);
-				valid = true;
-				for (int i = str.length() - 1; i > 0; i--) {
-					if (!Character.isDigit(str.charAt(i))) {
-						valid = false;
-						break;
-					}
-				}
-				if (valid) {
-					int id = Integer.parseInt(str);
-					if (id > 0 && id < 9999) {
-						Info info = new Info();
-						info.setId(id);
-						list.add(info);
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-//		downloadCsv(list);
-		downloadValueInOneFile();
-		list = loadName(list);
-		list = loadValueFromOneFile(list);
-		list = Integration.doIntegration(list, 5, false);
-		Integration.sortByIntegration(list);
-		show(list);
-		
-		//-- todo
-		//	revenue(), 計算營收成長? 
-		//	dividend(), 股利+股息
-		
-	}
-
-	private static void show(List<Info> list) {
+	
+	public static void show(List<Info> list) {
 
 		System.out.println("count \t id \t name \t value \t integration");
 		
@@ -99,7 +49,7 @@ public class InputExcel {
 
 	
 	
-	private static List<Info> loadName(List<Info> list) {
+	public static List<Info> loadName(List<Info> list) {
 		Iterator<Info> it = list.iterator();
 		while(it.hasNext()){
 			// save integration into list
@@ -125,7 +75,7 @@ public class InputExcel {
 	}
 	
 
-	private static List<Info> loadValueFromOneFile(List<Info> list) {		
+	public static List<Info> loadValueFromOneFile(List<Info> list) {		
 		try{
 			FileInputStream fis;
 			fis = new FileInputStream("data/all.csv");
@@ -189,7 +139,7 @@ public class InputExcel {
 		return list;
 	}
 	
-	private static void downloadValueInOneFile() {
+	public static void downloadValueInOneFile() {
 		try{ 
 			URL website = new URL("http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX3_print.php?genpage=genpage/Report201401/A112"+nowDate+"ALLBUT0999_1.php&type=csv"); 
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream()); 
