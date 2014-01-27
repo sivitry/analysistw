@@ -45,15 +45,15 @@ public class JimmyTestBackup {
 		info.setId(2884);
 		list.add(info);
 		
-		List lis = InputExcel.loadName(list);
+		List lis = InputExcel.loadValueFromOneFile(list);
 		
 		Iterator it = lis.iterator();
 		
 		while(it.hasNext()){
 			Info i = (Info)it.next();
-		    System.out.println(i.getIntegration());
-		    System.out.println(i.getName());
+		    System.out.println(i.getId());
 		    System.out.println(i.getValue());
+		    
 		}
 		
 		
