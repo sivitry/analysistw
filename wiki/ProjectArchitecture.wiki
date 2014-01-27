@@ -1,0 +1,27 @@
+專案內容說明如下
+
+= Introduction =
+
+底下說明程式間的關連性
+
+
+= Details =
+
+Main.java (專案從這開始執行)
+  -InputExcel.java(讀檔和存值)
+  -Integration.java(積分，目前已寫年線積分)
+
+常用的小型轉換程式在
+  -Utility.java
+  
+Model
+  -Info.java (存整個個股基本資料用)
+  -StockSysbol.java (存每年的個股資訊用)
+
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
+
