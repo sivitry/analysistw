@@ -10,18 +10,18 @@ _底下說明程式間的關連性_
 
 *Main.java* (專案從這開始執行)<br>
   #InputExcel.java(讀檔和存值)<br>
-  #Integration.java(積分，目前已寫年線積分)<p>
+  #Integration.java(積分，目前已寫年線積分) <br><br>
 
 
 
 *常用的小型轉換程式*<br>
-  *Utility.java<p>
+  *Utility.java <br><br>
   
 
 
 *Model*<br>
   #Info.java (存整個個股基本資料用)<br>
-  #StockSysbol.java (存每年的個股資訊用)<p>
+  #StockSysbol.java (存每年的個股資訊用) <br><br>
 
 
 
