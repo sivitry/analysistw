@@ -1,4 +1,4 @@
-package tw.blogspot.sivitry;
+package tw.blogspot.util;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

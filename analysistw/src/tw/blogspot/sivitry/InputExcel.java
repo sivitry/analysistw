@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import tw.blogspot.util.ROCDateTimeFormat;
 import tw.blogspot.model.Info;
-import tw.blogspot.sivitry.Utility;
+import tw.blogspot.util.Utility;
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
