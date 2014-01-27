@@ -17,7 +17,7 @@ Main.java (專案從這開始執行)
   
 Model
   -Info.java (存整個個股基本資料用)
-  -StockSysbol.java (存每年的個股資訊用)
+  -<b>StockSysbol.java</b> (存每年的個股資訊用)
 
 
 
