@@ -38,9 +38,17 @@ public class InputExcel {
 	private static String nowROCDate = "";
 	private static String nowDate = "";
 	
-	
+	/* download as a zip file, save into path - "data/revenue"
+	 * unzip file to path - "data/revenue"
+	 * 
+	 */
 	public static void downloadRevenue(){
 		//	http://www.twse.com.tw/ch/statistics/statistics_list.php?tm=05&stm=001
+		//	http://www.twse.com.tw/ch/inc/download.php?l1=%A4W%A5%AB%A4%BD%A5q%A9u%B3%F8&l2=%A4W%A5%AB%AA%D1%B2%BC%A4%BD%A5q%B0%5D%B0%C8%B8%EA%AE%C6%C2%B2%B3%F8&url=/ch/statistics/download/05/001/1999Q1_C05001.zip
+		//	http://www.twse.com.tw/ch/inc/download.php?l1=%A4W%A5%AB%A4%BD%A5q%A9u%B3%F8&l2=%A4W%A5%AB%AA%D1%B2%BC%A4%BD%A5q%B0%5D%B0%C8%B8%EA%AE%C6%C2%B2%B3%F8&url=/ch/statistics/download/05/001/1999Q2_C05001.zip
+		//	...
+		//	http://www.twse.com.tw/ch/inc/download.php?l1=%A4W%A5%AB%A4%BD%A5q%A9u%B3%F8&l2=%A4W%A5%AB%AA%D1%B2%BC%A4%BD%A5q%B0%5D%B0%C8%B8%EA%AE%C6%C2%B2%B3%F8&url=/ch/statistics/download/05/001/2013Q3_C05001.zip
+		
 		
 	}
 
@@ -95,23 +103,10 @@ public class InputExcel {
                             break;
                     }
                 }
-//                System.out.println("");
                 if(flag){
-//                	System.out.println(row.getCell(cellIndex));
                 	System.out.println(row.getCell(0)+"\t"+row.getCell(13));
                 }
             }
-
-            // Read a cell the first cell on the sheet.
-/*            HSSFCell cell = sheet.getRow(0).getCell(0);
-            if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-                System.out.println("Cell type for date data type is numeric.");
-            }
-
-            // Using HSSFDateUtil to check if a cell contains a date.
-            if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                System.out.println("The cell contains a date value: " + cell.getDateCellValue());
-            }*/
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -119,7 +114,6 @@ public class InputExcel {
                 try {
 					fis.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
