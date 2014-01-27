@@ -2,26 +2,132 @@ package tw.blogspot.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
+
+import tw.blogspot.util.ROCDateTimeFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.blogspot.model.Info;
+import tw.blogspot.util.Utility;
+import tw.blogspot.feature.*;
+
 public class InputExcel {	
 	
 	private static double lowBound = 0.0;
 	private static String nowROCDate = "";
 	private static String nowDate = "";
+	
+	
+	public static void downloadRevenue(){
+		//	http://www.twse.com.tw/ch/statistics/statistics_list.php?tm=05&stm=001
+		
+	}
+
+	
+	public static void loadAllRevenue() {
+		for(int year=1999 ; year<2013; year++){
+			for(int quarter=1 ; quarter<5; quarter++){
+				loadRevenue(year,quarter);
+			}
+		}
+	}
+	
+	
+	
+	public static void loadRevenue(int year, int quarter) {
+//		FileInputStream file = new FileInputStream(new File("data\revenue\2013Q1.XLS"));
+		System.out.println("into loadRevenue...");
+		String filename = "data/revenue/2013Q1.XLS";
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(filename);
+
+            HSSFWorkbook workbook = new HSSFWorkbook(fis);
+            HSSFSheet sheet = workbook.getSheetAt(0);
+            
+          //Iterate through each rows from first sheet
+            Iterator<Row> rowIterator = sheet.iterator();
+            while(rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                boolean flag = false; 
+                int cellIndex = 0;
+                
+                //For each row, iterate through each columns
+                Iterator<Cell> cellIterator = row.cellIterator();
+                while(cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch(cell.getCellType()) {
+                        case Cell.CELL_TYPE_BOOLEAN:
+//                            System.out.print(cell.getBooleanCellValue() + "\t\t");
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+//                            System.out.print(cell.getNumericCellValue() + "\t\t");
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+//                            System.out.print(cell.getStringCellValue() + "\t\t");
+                        	//	is String is a stock number
+                        	if(Utility.isValue(cell.getStringCellValue()) && cell.getStringCellValue().length()==4){
+                        		if(Utility.isStock(Integer.parseInt(cell.getStringCellValue()))){
+                                	flag = true;
+                                }
+                        	}
+                            break;
+                    }
+                }
+//                System.out.println("");
+                if(flag){
+//                	System.out.println(row.getCell(cellIndex));
+                	System.out.println(row.getCell(0)+"\t"+row.getCell(13));
+                }
+            }
+
+            // Read a cell the first cell on the sheet.
+/*            HSSFCell cell = sheet.getRow(0).getCell(0);
+            if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+                System.out.println("Cell type for date data type is numeric.");
+            }
+
+            // Using HSSFDateUtil to check if a cell contains a date.
+            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                System.out.println("The cell contains a date value: " + cell.getDateCellValue());
+            }*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+					fis.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        }
+	}
+	
+	
+	
 	
 	public static void show(List<Info> list) {
 
@@ -59,8 +165,6 @@ public class InputExcel {
 					int end = strLine.length()-13;
 					String name = strLine.substring(start, end);
 					info.setName(name);
-					//info.setValue(value);
-					//info.setIntegration(integration)
 //					System.out.println(strLine.substring(start, end));	
 				}
 			} catch (Exception e) {
@@ -83,6 +187,7 @@ public class InputExcel {
 			Pattern p = Pattern.compile("\"(\\d*(,?)\\.*\\d*)*\"");
 			Pattern lineP = Pattern.compile("(\\d{4}),(.*),(\\d*),(\\d*),(\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(.*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*),(\\d*\\.*\\d*)");
 			
+			
 			while ((strLine = br.readLine()) != null)   {
 				// Print the content on the console
 				if(strLine.length()>4 && strLine.charAt(4)==','){
@@ -99,7 +204,7 @@ public class InputExcel {
 				    if(lm.matches()){
 				    	String id = lm.group(1);
 				    	
-				    	System.out.println(lm.group(10));
+				    	//System.out.println(lm.group(10));
 				    	String target = lm.group(9);
 				    	
 				    	try {
@@ -118,7 +223,9 @@ public class InputExcel {
 						}
 				    	
 				    }else{
-				    	System.out.println(s.toString());
+				    	
+				    	
+				    	//System.out.println(s.toString());
 				    }
 				}	
 			}
