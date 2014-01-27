@@ -38,4 +38,14 @@ public class Utility {
 		}
 		return valid;
 	}
+	
+	public static boolean isStock(int id){
+		if (id > 0 && id < 9999) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
 }

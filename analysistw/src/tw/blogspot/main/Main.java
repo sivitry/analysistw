@@ -65,6 +65,7 @@ public class Main {
 		list = Integration.doIntegration(list, 5, false);
 		Integration.sortByIntegration(list);
 		InputExcel.show(list);
+		InputExcel.loadRevenue(2013, 1);
 		
 		//-- todo
 		//	revenue(), 計算營收成長? 
