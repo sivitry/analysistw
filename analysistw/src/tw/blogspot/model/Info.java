@@ -1,4 +1,4 @@
-package tw.blogspot.sivitry;
+package tw.blogspot.model;
 
 public class Info extends Object{
 	

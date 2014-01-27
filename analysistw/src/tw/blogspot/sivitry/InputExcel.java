@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import tw.blogspot.util.ROCDateTimeFormat;
+import tw.blogspot.model.Info;
 import tw.blogspot.sivitry.Utility;
 public class InputExcel {	
 	

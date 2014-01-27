@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import tw.blogspot.model.Info;
 import tw.blogspot.sivitry.Utility;
 
 public class Integration {
