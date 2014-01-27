@@ -28,7 +28,6 @@ public class InputExcel {
 	private static String nowROCDate = "";
 	private static String nowDate = "";
 	
-	
 	public static void show(List<Info> list) {
 
 		System.out.println("count \t id \t name \t value \t integration");
@@ -140,6 +139,12 @@ public class InputExcel {
 	}
 	
 	public static void downloadValueInOneFile() {
+		
+		ROCDateTimeFormat rocdf = new ROCDateTimeFormat("eee/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+   	    nowROCDate = rocdf.format(new Date()) ;
+   	    nowDate =sdf.format(new Date());
+		
 		try{ 
 			URL website = new URL("http://www.twse.com.tw/ch/trading/exchange/MI_INDEX/MI_INDEX3_print.php?genpage=genpage/Report201401/A112"+nowDate+"ALLBUT0999_1.php&type=csv"); 
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream()); 

@@ -24,16 +24,8 @@ import tw.blogspot.util.*;
 import tw.blogspot.feature.*;
 public class Main {	
 	
-	private static double lowBound = 0.0;
-	private static String nowROCDate = "";
-	private static String nowDate = "";
-	
 	public static void main(String[] args) throws ParseException {
-		
-		ROCDateTimeFormat rocdf = new ROCDateTimeFormat("eee/MM/dd");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-   	    nowROCDate = rocdf.format(new Date()) ;
-   	    nowDate =sdf.format(new Date());
+
 		
 		String filename = "data/BWIBBU_d20140108_utf8.csv";
 		List<Info> list = new LinkedList<Info>();
