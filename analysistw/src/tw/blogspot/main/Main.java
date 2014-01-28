@@ -18,6 +18,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import tw.blogspot.util.ROCDateTimeFormat;
 import tw.blogspot.model.Info;
 import tw.blogspot.util.*;
@@ -25,8 +28,6 @@ import tw.blogspot.feature.*;
 public class Main {	
 	
 	public static void main(String[] args) throws ParseException {
-
-		
 		String filename = "data/BWIBBU_d20140108_utf8.csv";
 		List<Info> list = new LinkedList<Info>();
 		String tmp;
