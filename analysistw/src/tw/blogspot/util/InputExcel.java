@@ -41,6 +41,18 @@ public class InputExcel {
 	private static String nowROCDate = "";
 	private static String nowDate = "";
 
+	
+	/*
+	 * Store realtime price into stock of list
+	 * Reference data : https://github.com/toomore/grs/blob/master/grs/realtime.py
+	 * Sample data : 	http://mis.tse.com.tw/data/3008.csv?r=123
+	 */
+	public static List<Info> loadRealTimePrice(List<Info> list){
+		//	need someone help!!
+		return list;
+	}
+	
+	
 	/*
 	public static void main(String[] args) throws ParseException {
 		downloadRevenue();
