@@ -41,6 +41,12 @@ public class InputExcel {
 	private static String nowROCDate = "";
 	private static String nowDate = "";
 
+	final static String OUTPUT_FOLDER = "data/revenue";
+	final static int year_start = 1999;
+	final static int year_end = 2013;
+	final static String[] QARAAY = { "Q1", "Q2", "Q3", "Q4" };
+
+	
 	
 	/*
 	 * Store realtime price into stock of list
@@ -53,10 +59,11 @@ public class InputExcel {
 	}
 	
 	
-	/*
+	
 	public static void main(String[] args) throws ParseException {
-		downloadRevenue();
-	}*/
+		//downloadRevenue();
+		loadAllRevenue();
+	}
 
 	/*
 	 * download as a zip file, save into path - "data/revenue" unzip file to
@@ -68,11 +75,7 @@ public class InputExcel {
 		// http://www.twse.com.tw/ch/inc/download.php?l1=%A4W%A5%AB%A4%BD%A5q%A9u%B3%F8&l2=%A4W%A5%AB%AA%D1%B2%BC%A4%BD%A5q%B0%5D%B0%C8%B8%EA%AE%C6%C2%B2%B3%F8&url=/ch/statistics/download/05/001/1999Q2_C05001.zip
 		// ...
 		// http://www.twse.com.tw/ch/inc/download.php?l1=%A4W%A5%AB%A4%BD%A5q%A9u%B3%F8&l2=%A4W%A5%AB%AA%D1%B2%BC%A4%BD%A5q%B0%5D%B0%C8%B8%EA%AE%C6%C2%B2%B3%F8&url=/ch/statistics/download/05/001/2013Q3_C05001.zip
-		final String OUTPUT_FOLDER = "data/revenue";
-		final int year_start = 1999;
-		final int year_end = 2013;
-		final String[] QARAAY = { "Q1", "Q2", "Q3", "Q4" };
-
+		
 		for (int i = year_start; i <= year_end; i++) {
 			for (String q : QARAAY) {
 				String target = i + q;
@@ -133,18 +136,18 @@ public class InputExcel {
 	}
 
 	public static void loadAllRevenue() {
-		for (int year = 1999; year < 2013; year++) {
-			for (int quarter = 1; quarter < 5; quarter++) {
-				loadRevenue(year, quarter);
-			}
+		for (int year = year_start; year <= year_end; year++) {
+			for(String q : QARAAY){
+				loadRevenue(year, q);
+			}			
 		}
 	}
 
-	public static void loadRevenue(int year, int quarter) {
+	public static void loadRevenue(int year, String quarter) {
 		// FileInputStream file = new FileInputStream(new
 		// File("data\revenue\2013Q1.XLS"));
 		System.out.println("into loadRevenue...");
-		String filename = "data/revenue/2013Q1.XLS";
+		String filename = OUTPUT_FOLDER + File.separator + year + quarter +".xls";
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(filename);
